@@ -15,6 +15,8 @@ import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Bundle;
 
+import static android.widget.Toast.*;
+
 public class DownloaderTaskFragment extends Fragment {
 
 	private DownloadFinishedListener mCallback;
@@ -37,11 +39,12 @@ public class DownloaderTaskFragment extends Fragment {
 		// TODO: Retrieve arguments from DownloaderTaskFragment
 		// Prepare them for use with DownloaderTask. 
 		Bundle args = getArguments();
+		ArrayList<Integer> friends = args.getIntegerArrayList(MainActivity.TAG_FRIEND_RES_IDS);
+		Integer[] feeds = (Integer[]) friends.toArray();
 
 
-        
-		// TODO: Start the DownloaderTask 
-		dt.execute(MainActivity.sRawTextFeedIds, null, args);
+		// TODO: Start the DownloaderTask
+		dt.execute(feeds);
         
 
 	}
@@ -77,9 +80,9 @@ public class DownloaderTaskFragment extends Fragment {
 	// the hosting Activity using the DownloadFinishedListener interface.
 
 	public class DownloaderTask extends AsyncTask<Integer, Void, String[]> {
+
 		@Override
 		protected String[] doInBackground(Integer... names) {
-
 			return downloadTweets(names);
 		}
 
