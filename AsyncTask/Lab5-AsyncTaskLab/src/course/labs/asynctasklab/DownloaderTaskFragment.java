@@ -4,7 +4,10 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.lang.reflect.Array;
+import java.net.URL;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 import android.app.Activity;
 import android.app.Fragment;
@@ -28,17 +31,17 @@ public class DownloaderTaskFragment extends Fragment {
 		setRetainInstance(true);
 		
 		// TODO: Create new DownloaderTask that "downloads" data
-
+		DownloaderTask dt = new DownloaderTask();
         
 		
 		// TODO: Retrieve arguments from DownloaderTaskFragment
 		// Prepare them for use with DownloaderTask. 
+		Bundle args = getArguments();
+
 
         
-        
-        
 		// TODO: Start the DownloaderTask 
-		
+		dt.execute(MainActivity.sRawTextFeedIds, null, args);
         
 
 	}
@@ -73,21 +76,18 @@ public class DownloaderTaskFragment extends Fragment {
 	// out). Ultimately, it must also pass newly available data back to 
 	// the hosting Activity using the DownloadFinishedListener interface.
 
-//	public class DownloaderTask extends ... {
-	
+	public class DownloaderTask extends AsyncTask<Integer, Void, String[]> {
+		@Override
+		protected String[] doInBackground(Integer... names) {
 
-    
-    
-    
-    
-    
-    
-    
-        // TODO: Uncomment this helper method
+			return downloadTweets(names);
+		}
+
+		// TODO: Uncomment this helper method
 		// Simulates downloading Twitter data from the network
 
-        /*
-         private String[] downloadTweets(Integer resourceIDS[]) {
+
+		private String[] downloadTweets (Integer resourceIDS[]){
 			final int simulatedDelay = 2000;
 			String[] feeds = new String[resourceIDS.length];
 			try {
@@ -124,7 +124,7 @@ public class DownloaderTaskFragment extends Fragment {
 
 			return feeds;
 		}
-         */
+	}
 
 
     
