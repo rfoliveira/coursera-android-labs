@@ -14,6 +14,7 @@ import android.app.Fragment;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
 
 import static android.widget.Toast.*;
 
@@ -39,12 +40,15 @@ public class DownloaderTaskFragment extends Fragment {
 		// TODO: Retrieve arguments from DownloaderTaskFragment
 		// Prepare them for use with DownloaderTask. 
 		Bundle args = getArguments();
-		ArrayList<Integer> friends = args.getIntegerArrayList(MainActivity.TAG_FRIEND_RES_IDS);
-		Integer[] feeds = (Integer[]) friends.toArray();
 
+		ArrayList arrayList = args.getIntegerArrayList("friends");
+
+		Integer[] mResourceIds = new Integer[arrayList.size()];
+
+		mResourceIds = (Integer[]) arrayList.toArray(mResourceIds);
 
 		// TODO: Start the DownloaderTask
-		dt.execute(feeds);
+		dt.execute(mResourceIds);
         
 
 	}
@@ -79,11 +83,12 @@ public class DownloaderTaskFragment extends Fragment {
 	// out). Ultimately, it must also pass newly available data back to 
 	// the hosting Activity using the DownloadFinishedListener interface.
 
-	public class DownloaderTask extends AsyncTask<Integer, Void, String[]> {
+	public class DownloaderTask extends AsyncTask<Integer[], Void, String[]> {
 
 		@Override
-		protected String[] doInBackground(Integer... names) {
-			return downloadTweets(names);
+		protected String[] doInBackground(Integer[]... names) {
+
+			return downloadTweets(names[0]);
 		}
 
 		// TODO: Uncomment this helper method
